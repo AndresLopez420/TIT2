@@ -5,20 +5,18 @@
                 <div class="card text-center">
                     <div class="card-body">
                         <h3 class="card-title text-uppercase">
-                             {{nombre}}
+                            {{nombre}}
                         </h3>
                         <p>{{horario}}</p>
                         <p>{{disponibilidad}}</p>
-                        <a href="/admin/eliminar/{{id_hora}}" class="btn btn-danger">Eliminar</a>
-                        <a href="/admin/editar/{{id_hora}}" class="btn btn-secondary">Editar</a>
+                        <a class="btn btn-primary btn-block" href="../solicitar" role="button">Solicitar</a>
                     </div>
                 </div>
             </div>
         {{else}}
             <div class="col-md-4 mx-auto">
                 <div class="card card-body text-center">
-                    <p>No hay Horas de atencion medica</p>
-                    <a href="/admin/add">Genera Horas de atencion medica</a>
+                    <p>Por el momento no hay horas de atencion medica, intente mas tarde</p>
                 </div>
             </div>
         {{/each}}

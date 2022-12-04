@@ -41,6 +41,7 @@ app.use(passport.session());
 app.use((req, res, next)=>{
     app.locals.success = req.flash('success');
     app.locals.message = req.flash('message');
+    app.locals.disponibilidad = req.disponibilidad
     app.locals.user = req.user;
     next();
 });
@@ -50,6 +51,7 @@ app.use(require('./routes/authentication'));
 app.use(require('./routes/paciente'));
 app.use(require('./routes/admin'));
 app.use('/admin',require('./routes/admin'));
+app.use('/paciente',require('./routes/paciente'));
 //publico
 app.use(express.static(path.join(__dirname,'public')));
 

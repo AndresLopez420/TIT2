@@ -31,11 +31,13 @@ router.get('/eliminar/:id',async (req,res) => {
     req.flash('success','Hora medica eliminada satisfactoriamente');
     res.redirect('../lista');
 });
+
 router.get('/editar/:id', async (req,res) => {
     const { id } = req.params;
     const datos = await pool.query("SELECT id_hora, DATE_FORMAT(fecha_hora, '%Y-%m-%d %H:%i:%s.') as 'horario', rut_p FROM hora_medica WHERE id_hora = ?",[id]);
     res.render('admin/editar', {dato: datos[0]});
 });
+
 router.post('/editar/:id', async (req,res) => {
     const { id } = req.params;
     const { fecha_hora, rut_p } = req.body;
