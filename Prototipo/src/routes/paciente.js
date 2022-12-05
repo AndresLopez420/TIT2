@@ -16,7 +16,7 @@ router.post('/formualariop', async (req,res) => {
 });
 
 router.get('/listap', async (req,res) => {
-    const horas = await pool.query("SELECT profesional.nombre, profesional.num_sala, especialidad.especialidad, hora_medica.fecha_hora, hora_medica.disponibilidad FROM profesional INNER JOIN pro_espec ON profesional.rut_p = pro_espec.rut_p INNER JOIN especialidad ON pro_espec.id_especialidad = especialidad.id_especialidad INNER JOIN hora_medica ON hora_medica.rut_p = profesional.rut_p;");
+    const horas = await pool.query("SELECT profesional.nombre, profesional.num_sala, especialidad.especialidad, DATE_FORMAT(hora_medica.fecha_hora, '%Y-%m-%d %H:%i:%s.') as 'horario', hora_medica.disponibilidad FROM profesional INNER JOIN pro_espec ON profesional.rut_p = pro_espec.rut_p INNER JOIN especialidad ON pro_espec.id_especialidad = especialidad.id_especialidad INNER JOIN hora_medica ON hora_medica.rut_p = profesional.rut_p;");
     res.render('paciente/listap', {  horas });
 });
 
