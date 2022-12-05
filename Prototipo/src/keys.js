@@ -5,7 +5,7 @@ module.exports = {
         host:'localhost',
         user:'root',
         password:'',
-        database:'bd30',
+        database:'bdtit2',
         port:'3306',
     }
 }
