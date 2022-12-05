@@ -25,6 +25,12 @@ router.get('/lista', async (req,res) => {
     res.render('admin/lista', { horas });
 });
 
+router.get('/solicitudes', async (req,res) => {
+    const solicitaciones = await pool.query("SELECT solicita.rut, persona.nombres,persona.apellidos,persona.correo_electronico,persona.telefono_personal,persona.telefono_contacto,persona.direccion,solicita.motivo, profesional.nombre as nombre_profesional, DATE_FORMAT(hora_medica.fecha_hora, '%Y-%m-%d %H:%i:%s.') as 'horario' FROM solicita INNER JOIN persona ON solicita.rut = persona.rut INNER JOIN hora_medica ON solicita.id_hora = hora_medica.id_hora INNER JOIN profesional ON hora_medica.rut_p = profesional.rut_p");
+    res.render('admin/solicitudes', { solicitaciones });
+});
+
+
 router.get('/eliminar/:id',async (req,res) => {
     const { id } = req.params;
     await pool.query("DELETE FROM hora_medica WHERE id_hora = ?", [id]);
