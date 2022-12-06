@@ -21,7 +21,7 @@ router.post('/add', async (req,res) => {
 });
 
 router.get('/lista', async (req,res) => {
-    const horas = await pool.query("SELECT id_hora , disponibilidad , DATE_FORMAT(fecha_hora, '%Y-%m-%d %H:%i:%s.') as 'horario', nombre FROM hora_medica INNER JOIN profesional ON hora_medica.rut_p = profesional.rut_p");
+    const horas = await pool.query("SELECT id_hora , disponibilidad , DATE_FORMAT(fecha_hora, '%Y-%m-%d %H:%i:%s.') as 'horario', nombre FROM hora_medica INNER JOIN profesional ON hora_medica.rut_p = profesional.rut_p AND hora_medica.disponibilidad='disponible';");
     res.render('admin/lista', { horas });
 });
 
