@@ -1,0 +1,31 @@
+<div class="container p-4">
+    <div class="row">
+        <div class="col-md-4 mx-auto">
+            <div class="card ">
+                <div class="card-body">
+                   
+                    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+                        <script>
+                                $(function(){
+                                $('#login').click(function(){
+                                $(this).next('#login-content').slideToggle();
+                                $(this).toggleClass('active');          
+                                });
+                                });
+                        </script>
+                    <p style="text-align: center; font-size: 20px;">Respuesta Solicitud</p>
+                    <form action="/respuesta" method="post">
+                            <div class="form-group">
+                                <input type="text" name="rut_p" class="form-control" placeholder="Respuesta">
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-success btn-block" style="background-color:#4983A4;">
+                                    ENVIAR
+                                </button>
+                            </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

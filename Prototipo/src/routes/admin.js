@@ -38,6 +38,13 @@ router.get('/eliminar/:id',async (req,res) => {
     res.redirect('../lista');
 });
 
+router.get('/eliminar_solicitud/:id',async (req,res) => {
+    const { id_solicita } = req.params;
+    await pool.query("DELETE FROM solicita WHERE id_solicita = ?", [id_solicita]);
+    req.flash('success','Solicitud eliminada satisfactoriamente');
+    res.redirect('../solicitudes');
+});
+
 router.get('/editar/:id', async (req,res) => {
     const { id } = req.params;
     const datos = await pool.query("SELECT id_hora, DATE_FORMAT(fecha_hora, '%Y-%m-%d %H:%i:%s.') as 'horario', rut_p FROM hora_medica WHERE id_hora = ?",[id]);
