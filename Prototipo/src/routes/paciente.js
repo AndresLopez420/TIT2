@@ -20,10 +20,10 @@ router.post('/formulariop', async (req,res) => {
         fecha_nacimiento, 
         correo_electronico, 
         direccion
-    };  
+    };
     await pool.query('INSERT INTO persona set ?', [nuevaPaciente]);
     req.flash('success','Paciente ingresado satisfactoriamente');
-    res.redirect('solicitud');
+    res.redirect('solicitud/${rut}');
 });
 
 router.get('/listap', async (req,res) => {
@@ -31,38 +31,28 @@ router.get('/listap', async (req,res) => {
     res.render('paciente/listap', {  horas });
 });
 
-router.get('/solicitud', (req,res) => {
-    res.render('paciente/solicitud');
+router.get('/solicitud/:rut', (req,res) => {
+    const { rut } = req.params;
+    res.render('paciente/solicitud/${rut}');
 });
 
-
-router.get('/editar/:id', async (req,res) => {
+router.get('/eliminar/:id',async (req,res) => {
     const { id } = req.params;
-    const datos = await pool.query("SELECT id_hora, DATE_FORMAT(fecha_hora, '%Y-%m-%d %H:%i:%s.') as 'horario', rut_p FROM hora_medica WHERE id_hora = ?",[id]);
-    res.render('admin/editar', {dato: datos[0]});
-});
-
-router.post('/editar/:id', async (req,res) => {
-    const { id } = req.params;
-    const { fecha_hora, rut_p } = req.body;
-    const nuevaHora = {
-        fecha_hora,
-        rut_p
-    };
-    const datos = await pool.query("UPDATE hora_medica SET ? WHERE id_hora = ?",[nuevaHora,id]);
-    req.flash('success', 'Hora medica modificada satisfactoriamente');
+    await pool.query("DELETE FROM hora_medica WHERE id_hora = ?", [id]);
+    req.flash('success','Hora medica eliminada satisfactoriamente');
     res.redirect('../lista');
 });
 
-router.post('/solicitud/:rut', async (req,res) => {
-    const { rut } = req.params;
+router.post('/solicitud/', async (req,res) => {
+    const rut = await pool.query("SELECT rut from persona");
+    const {motivo} = req.body;
     const nuevaSolicitud = {
-        motivo,
-        rut
+        rut,
+        motivo
     };  
-    const datos = await pool.query("UPDATE hora_medica SET ? WHERE id_hora = ?",[nuevaSolicitud,rut]);
+    await pool.query("INSERT INTO solicita SET ? ",[nuevaSolicitud]);
     req.flash('success','Se ha enviado su solicitud, se le enviara un correo con la respuesta');
-    res.redirect('../home');
+    res.redirect('paciente/listap');
 });
 
 module.exports = router;
