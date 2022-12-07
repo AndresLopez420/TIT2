@@ -59,7 +59,7 @@ router.post('/editar/:id', async (req,res) => {
 router.get('/solicitudes/sol_aprobada/:ids', async (req,res) => {
     const {ids} = req.params;
     console.log(ids);
-    await pool.query("UPDATE hora_medica SET disponibilidad = 'Reservado' WHERE id_hora = ?",ids);
+    await pool.query("UPDATE hora_medica SET disponibilidad = 'Reservado' WHERE id_hora = (SELECT id_hora FROM solicita WHERE id_solicita= ?)",ids);
     req.flash('success', 'Correo de Confirmacion Enviado al Paciente');
     const correo_electronico = await pool.query("SELECT persona.correo_electronico as '' FROM solicita INNER JOIN persona ON solicita.rut = persona.rut WHERE solicita.id_solicita= ?;",ids);
     const correotupla = Object.values(JSON.parse(JSON.stringify(correo_electronico)));
@@ -83,7 +83,7 @@ router.get('/solicitudes/sol_aprobada/:ids', async (req,res) => {
     res.redirect('../../solicitudes'); 
 });
 
-router.get('/solicitudes/sol_rechazada/:ids/', async (req,res) => {
+router.get('/solicitudes/sol_rechazada/:ids', async (req,res) => {
     const {ids} = req.params;
     req.flash('success', 'Correo de Rechaso Enviado al Paciente');
     const correo_electronico = await pool.query("SELECT persona.correo_electronico as '' FROM solicita INNER JOIN persona ON solicita.rut = persona.rut WHERE solicita.id_solicita= ?;",ids);
@@ -91,10 +91,9 @@ router.get('/solicitudes/sol_rechazada/:ids/', async (req,res) => {
     const aux = JSON.stringify(correotupla);
     const aux2= aux.replace('[{"":"', '');
     const correo = aux2.replace('"}]', '');
+    console.log(correo);
     const prueba = 'pruebalecofq@gmail.com';
-
     await pool.query("DELETE FROM solicita WHERE id_solicita = ?", [ids]);
-
 
     try {
         await transporter.sendMail({
