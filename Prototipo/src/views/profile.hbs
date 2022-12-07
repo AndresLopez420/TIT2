@@ -9,6 +9,15 @@
                     </a>
                 </div>
             </div>
+            <br>
+            {{#each horasMedicas}}
+                        <div class="card-body" style="background-color:#4983A4">
+                            <p>Sala: {{num_sala}}</p>
+                            <p>Horario: {{horario}}</p>
+                            <p>Estado: {{disponibilidad}}</p>
+                        </div>
+                        <br>
+            {{/each}}
         </div>
     </div>
 </div>

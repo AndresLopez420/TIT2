@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
+const pool = require('../database');
 
 router.get('/signup', (req, res) => {
     res.render('auth/signup');
@@ -25,8 +26,9 @@ router.post('/signin', (req, res, next) => {
 });
 
 
-router.get('/profile', (req,res)=> {
-    res.render('profile')
+router.get('/profile', async (req,res)=> {
+  const horasMedicas = await pool.query("SELECT DATE_FORMAT(fecha_hora, '%Y-%m-%d %H:%i:%s.') as horario, p.rut_p, disponibilidad, num_sala FROM hora_medica as h JOIN profesional as p ON p.rut_p=h.rut_p WHERE p.rut_p = ? ",[req.user.rut]);
+  res.render('profile',{horasMedicas})
 });
 
 router.get('/logout', (req, res) => {
