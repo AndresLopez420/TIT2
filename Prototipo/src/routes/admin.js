@@ -2,7 +2,8 @@ const { request, response, query } = require('express');
 const express = require('express');
 const router = express.Router();
 const pool = require('../database');
-//import {transporter} from './../config/mailer'
+const nodemailer = require('nodemailer');
+
 
 router.get('/add', (req,res) => {
     res.render('admin/hora');
@@ -37,13 +38,6 @@ router.get('/eliminar/:id',async (req,res) => {
     res.redirect('../lista');
 });
 
-router.get('/eliminar_solicitud/:id',async (req,res) => {
-    const { id_solicita } = req.params;
-    await pool.query("DELETE FROM solicita WHERE id_solicita = ?", [id_solicita]);
-    req.flash('success','Solicitud eliminada satisfactoriamente');
-    res.redirect('../solicitudes');
-});
-
 router.get('/editar/:id', async (req,res) => {
     const { id } = req.params;
     const datos = await pool.query("SELECT id_hora, DATE_FORMAT(fecha_hora, '%Y-%m-%d %H:%i:%s.') as 'horario', rut_p FROM hora_medica WHERE id_hora = ?",[id]);
@@ -62,30 +56,73 @@ router.post('/editar/:id', async (req,res) => {
     res.redirect('../lista');
 });
 
-router.get('/solicitudes/sol_aprobada/:id/', async (req,res) => {
-    const {id} = req.params;
-    console.log(id);
-    const disponibilidad = await pool.query("UPDATE hora_medica SET disponibilidad = 'Reservado' WHERE id_hora = ?",id);
+router.get('/solicitudes/sol_aprobada/:ids', async (req,res) => {
+    const {ids} = req.params;
+    console.log(ids);
+    await pool.query("UPDATE hora_medica SET disponibilidad = 'Reservado' WHERE id_hora = ?",ids);
     req.flash('success', 'Correo de Confirmacion Enviado al Paciente');
-
-
-    
+    const correo_electronico = await pool.query("SELECT persona.correo_electronico as '' FROM solicita INNER JOIN persona ON solicita.rut = persona.rut WHERE solicita.id_solicita= ?;",ids);
+    const correotupla = Object.values(JSON.parse(JSON.stringify(correo_electronico)));
+    const aux = JSON.stringify(correotupla);
+    const aux2= aux.replace('[{"":"', '');
+    const correo = aux2.replace('"}]', '');
+    const prueba = 'pruebalecofq@gmail.com';
+    console.log(correo);
+    await pool.query("DELETE FROM solicita WHERE id_solicita = ?", [ids]);
+    try {
+        await transporter.sendMail({
+        from: 'pruebalecofq@gmail.com', // sender address
+        to: correo, // list of receivers
+        subject: "Solicitud de Hora medica Lecofq.", // Subject line
+        html: "<b>Su hora Lecofq a sido confirmada</b>", // html body
+    });
+    }catch (error){
+    emailStatus=error;
+    return res.status(400).json({ message: 'Algo Salio Mal con el Correo'});
+    }
     res.redirect('../../solicitudes'); 
 });
 
-module.exports = router;
+router.get('/solicitudes/sol_rechazada/:ids/', async (req,res) => {
+    const {ids} = req.params;
+    req.flash('success', 'Correo de Rechaso Enviado al Paciente');
+    const correo_electronico = await pool.query("SELECT persona.correo_electronico as '' FROM solicita INNER JOIN persona ON solicita.rut = persona.rut WHERE solicita.id_solicita= ?;",ids);
+    const correotupla = Object.values(JSON.parse(JSON.stringify(correo_electronico)));
+    const aux = JSON.stringify(correotupla);
+    const aux2= aux.replace('[{"":"', '');
+    const correo = aux2.replace('"}]', '');
+    const prueba = 'pruebalecofq@gmail.com';
 
-/*try {
-    await transporter.sendMail({
-    from: '"Su solicitu de hora fue Rechasada/Aceptada" <pruebalecofq@gmail.com>', // sender address
-    to: "bar@example.com, baz@example.com", // list of receivers
-    subject: "Solicitud de Hora medica ", // Subject line
-    text: "Su solicitu de hora fue Rechasada/Aceptada?", // plain text body
-    //html: "<b>Hello world?</b>", // html body
+    await pool.query("DELETE FROM solicita WHERE id_solicita = ?", [ids]);
+
+
+    try {
+        await transporter.sendMail({
+        from: 'pruebalecofq@gmail.com', // sender address
+        to: correo, // list of receivers
+        subject: "Solicitud de Hora medica Lecofq.", // Subject line
+        html: "<b>Su hora Lecofq a sido Rechazada porfavor vuelva a solicitar una Hora</b>", // html body
+    });
+    }catch (error){
+    emailStatus=error;
+    return res.status(400).json({ message: 'Algo Salio Mal con el Correo'});
+    }
+    res.redirect('../../solicitudes'); 
+});
+
+let transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true, // true for 465, false for other ports
+    auth: {
+      user: 'pruebalecofq@gmail.com', // generated ethereal user
+      pass: 'osknjilrgajfjlrn', // generated ethereal password
+    },
+  });
+  
+  transporter.verify().then( ()=> {
+    console.log('Listo para envio de Correos');
   });
 
-}catch (error){
-    emailStatus=error:
-    return res.status(400).json({ message: 'Algo Salio Mal con el Correo'});
-}
-*/
+module.exports = router;
+
