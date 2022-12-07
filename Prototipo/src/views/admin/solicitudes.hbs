@@ -7,11 +7,36 @@
                         <h3 class="card-title text-uppercase">
                              {{rut}}
                         </h3>
+<<<<<<< HEAD
                         <p>{{id_hora}}</p>
                         <p>{{motivo}}</p>
                         <a href="/admin/eliminar/{{id_hora}}" class="btn btn-danger">Eliminar</a><br>
                         <a href="/admin/solicitudes/{{id_hora}}" class="btn btn-primary">solicitudes</a><br>
                         <a href="/admin/editar/{{id_hora}}" class="btn btn-secondary">Editar</a><br>
+=======
+                        <p>Correo Paciente: {{correo_electronico}}</p>
+                        <p>Numero Paciente Personal: {{telefono_personal}}</p>
+                        <p>Numero Paciente Contacto: {{telefono_contacto}}</p>
+                        <p>Direccion del Paciente: {{direccion}}</p>
+                        <p>Profesional:{{nombre_profesional}}</p>
+                        <p>{{horario}}</p>
+                        <p>{{disponibilidad}}</p>
+                        <p>Motivo:{{motivo}}</p>
+                        <div class="form-group">
+                            <a href="/admin/solicitudes/sol_aprobada/{{id_hora}}" class="btn btn-success btn-block" style="background-color:#4983A4;">
+                                Solcitud Aprobada
+                            </a>
+                        </div>
+                         <div class="form-group">
+                            <button href="/admin/eliminar_solicitud/{{id_solicita}}" class="btn btn-success btn-block" style="background-color:#a45449;">
+                                Solcitud Rechasada
+                            </button>
+                        </div>
+                        <input type="hidden" name="_next" value="http://localhost:4000/admin/solicitudes">
+                        <input type="hidden" name="_captcha" value="false">
+                        
+                    </form>
+>>>>>>> f2759dc (Cambio de estado de disponibilidad)
                     </div>
                 </div>
             </div>
