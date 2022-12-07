@@ -3,7 +3,10 @@
         <div class="col-md-4 mx-auto">
             <div class="card ">
                 <div class="card-body">
-                    <form action="/paciente/solicitud/{{rut}}" method="post">
+                    <form action="/paciente/solicitud/{{nuevoPaciente.rut}}" method="post">
+                        <div class="form-group" style="display: none">
+                            <input type="text" class="form-control" name="id_hora" value={{id}}>
+                        </div>
                         <div class="form-group">
                             <p>Ingrese motivo de su solicitud</p>
                             <textarea class="form-control" name="motivo" placeholder="Ingrese su motivo" rows="5"></textarea>

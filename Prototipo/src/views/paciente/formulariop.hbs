@@ -1,64 +1,66 @@
 <div class="container p-4">
     <div class="row">
-        <div class="col-md-6  mx-auto">
-            <div class="card">
-                <div class="card-body">
-                    <p style="text-align: center; font-size: 20px;">Ingrese los Datos del Paciente</p>
-                    <form action="/paciente/formulariop" method="POST">
-                        <div class="form-group">
-                            <input type="Text" class="form-control" name="nombres" placeholder="Nombres del Paciente">
-                        </div>
+        {{#each valor}}
+            <div class="col-md-6  mx-auto">
+                <div class="card">
+                    <div class="card-body">
+                        <p style="text-align: center; font-size: 20px;">Ingrese los Datos del Paciente</p>
+                        <form action="/paciente/formulariop/{{id}}" method="POST">
+                            <div class="form-group">
+                                <input type="Text" class="form-control" name="nombres" placeholder="Nombres del Paciente">
+                            </div>
 
-                        <div class="form-group">
-                            <input type="Text" class="form-control" name="apellidos"
-                                placeholder="Apellidos del Paciente">
-                        </div>
+                            <div class="form-group">
+                                <input type="Text" class="form-control" name="apellidos"
+                                    placeholder="Apellidos del Paciente">
+                            </div>
 
-                        <div class="form-group">
-                            <input type="Text" class="form-control" name="rut"
-                                placeholder="Rut con punto y guion. ejemplo: 99.999.999-9">
-                        </div>
+                            <div class="form-group">
+                                <input type="Text" class="form-control" name="rut"
+                                    placeholder="Rut con punto y guion. ejemplo: 99.999.999-9">
+                            </div>
 
-                        <div class="form-group">
-                            <input type="Text" class="form-control" name="telefono_personal"
-                                placeholder="Telefono Personal">
-                        </div>
+                            <div class="form-group">
+                                <input type="Text" class="form-control" name="telefono_personal"
+                                    placeholder="Telefono Personal">
+                            </div>
 
-                        <div class="form-group">
-                            <input type="Text" class="form-control" name="telefono_contacto"
-                                placeholder="Telefono de Contacto">
-                        </div>
+                            <div class="form-group">
+                                <input type="Text" class="form-control" name="telefono_contacto"
+                                    placeholder="Telefono de Contacto">
+                            </div>
 
-                        <div class="form-group">
-                            <input type="Text" class="form-control" name="talla"
-                                placeholder="Talla">
-                        </div>
+                            <div class="form-group">
+                                <input type="Text" class="form-control" name="talla"
+                                    placeholder="Talla">
+                            </div>
 
-                        <div class="form-group">
-                            Genero
-                            <select name="sexo">
-                                <option value="M">Masculino</option>
-                                <option value="F">Femenino</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            Fecha de Nacimiento<input type="date" class="form-control" name="fecha_nacimiento">
-                        </div>
-                        <div class="form-group">
-                            <input type="Text" class="form-control" name="correo_electronico"
-                                placeholder="Correo Electronico">
-                        </div>
-                        <div class="form-group">
-                            <input type="Text" class="form-control" name="direccion" placeholder="Direccion">
-                        </div>
-                        <div class="form-group">
-                          <button class="btn btn-success btn-lg w-100" style="background-color:#4983A4;">
-                              Siguiente
-                          </button>
-                        </div>
-                    </form>
+                            <div class="form-group">
+                                Genero
+                                <select name="sexo">
+                                    <option value="M">Masculino</option>
+                                    <option value="F">Femenino</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                Fecha de Nacimiento<input type="date" class="form-control" name="fecha_nacimiento">
+                            </div>
+                            <div class="form-group">
+                                <input type="Text" class="form-control" name="correo_electronico"
+                                    placeholder="Correo Electronico">
+                            </div>
+                            <div class="form-group">
+                                <input type="Text" class="form-control" name="direccion" placeholder="Direccion">
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-success btn-lg w-100" style="background-color:#4983A4;">
+                                    Siguiente
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
+        {{/each}}
     </div>
 </div>
