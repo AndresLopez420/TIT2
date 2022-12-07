@@ -19,38 +19,23 @@
                         <p>{{horario}}</p>
                         <p>{{disponibilidad}}</p>
                         <p>Motivo:{{motivo}}</p>
-        
-                        <form action="https://formsubmit.co/pruebalecofq@gmail.com" method="POST" >
-
                         <div class="form-group">
-                            <input type="email" name="correo" placeholder="Correo electronico" class="form-control">
+                            <a href="/admin/solicitudes/sol_aprobada/{{id_hora}}" class="btn btn-success btn-block" style="background-color:#4983A4;">
+                                Solcitud Aprobada
+                            </a>
                         </div>
-
-                        <div>
-                            <input type="radio" name="tipo" value="Solicitud Rechazada"><label>Rechazada</label>
-                            <input type="radio" name="tipo" value="Solicitud Aprobada"><label>Confirmar</label>
-                        </div>
-                        <div class="form-group">
-                            <button class="btn btn-success btn-block" style="background-color:#4983A4;">
-                                ENVIAR RESPUESTA
-                            </button>
-                        </div>
-
                          <div class="form-group">
                             <button href="/admin/eliminar_solicitud/{{id_solicita}}" class="btn btn-success btn-block" style="background-color:#a45449;">
-                                ELIMINAR SOLICITUD
+                                Solcitud Rechasada
                             </button>
                         </div>
                         <input type="hidden" name="_next" value="http://localhost:4000/admin/solicitudes">
                         <input type="hidden" name="_captcha" value="false">
-
+                        
                     </form>
                     </div>
                 </div>
             </div>
-        
-
-
         {{else}}
             <div class="col-md-4 mx-auto">
                 <div class="card card-body text-center">
@@ -58,6 +43,5 @@
                 </div>
             </div>
         {{/each}}
-
     </div>
 </div>
